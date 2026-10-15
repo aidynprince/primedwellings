@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>hash change sample</title>
+  </head>
+  <body>
+    <nav>
+      <li><a href="#home">Home</a></li>
+      <li><a href="#contact">Contact</a></li>
+      <li><a href="#about">About</a></li>
+    </nav>
+    <div id="app">Loading...</div>
+
+    <script>
+      const routes = [
+        {
+          "#home": `<h1> home page </h1>
+                 <p>this is the home page</p>`,
+        },
+        {
+          "#about": `<h1> about page </h1>
+                 <p>this is the about page</p>`,
+        },
+        {
+          "#contact": `<h1> contact page </h1>
+                 <p>this is the contact page</p>`,
+        },
+      ];
+
+      function router() {
+        const main = document.getElementById("app");
+        const hash = window.location.hash || "#home";
+        const notfoundpage = ` <h1> 404 error </h1>    <p>the page cannot befound</p>
+  `;
+        const page = routes.filter((route) => route[hash]);
+        console.log(page[0]);
+        main.innerHTML = page[0][hash] || notfoundpage;
+      }
+      window.addEventListener("hashchange", router);
+      window.addEventListener("DOMContentLoaded", router);
+    </script>
+  </body>
+</html>
