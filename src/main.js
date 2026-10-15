@@ -1,15 +1,13 @@
 import "./index.css";
 import { firm, services } from "./data.js";
-import {
-  aboutPage,
-  contactPage,
-  homePage,
-  legalPage,
-  notFoundPage,
-  propertiesPage,
-  propertyPage,
-  servicesPage,
-} from "./pages.js";
+import { aboutPage } from "./pages/about.js";
+import { servicesPage } from "./pages/services.js";
+import { contactPage } from "./pages/contact.js";
+import { legalPage } from "./pages/legal.js";
+import { notFoundPage } from "./pages/not-found.js";
+import { propertyPage } from "./pages/property.js";
+import { propertiesPage } from "./pages/properties.js";
+import { homePage } from "./pages.js";
 import { footer, formStyles, header } from "./ui.js";
 
 const app = document.getElementById("app");
@@ -50,7 +48,8 @@ function setMeta(page, path) {
   if (desc) desc.setAttribute("content", page.desc);
 
   const canonical = document.querySelector('link[rel="canonical"]');
-  if (canonical) canonical.setAttribute("href", "https://www.primedwellings.example" + path);
+  if (canonical)
+    canonical.setAttribute("href", "https://www.primedwellings.example" + path);
 
   let ld = document.getElementById("ld-json");
   if (!ld) {
@@ -65,7 +64,11 @@ function setMeta(page, path) {
     name: firm.name,
     description: page.desc,
     areaServed: "Ghana",
-    address: { "@type": "PostalAddress", addressCountry: "GH", addressLocality: "Accra" },
+    address: {
+      "@type": "PostalAddress",
+      addressCountry: "GH",
+      addressLocality: "Accra",
+    },
     knowsAbout: services.map((s) => s.title),
   });
 }
@@ -104,7 +107,7 @@ function render() {
     const target = document.getElementById(route.anchor);
     if (target) {
       window.requestAnimationFrame(() =>
-        target.scrollIntoView({ behavior: "smooth", block: "start" })
+        target.scrollIntoView({ behavior: "smooth", block: "start" }),
       );
       lastPath = route.path;
       return;
@@ -135,7 +138,9 @@ function wirePhotoPlate() {
   const caption = document.getElementById("photo-plate-caption");
   if (!plate || !img) return;
 
-  const canHover = window.matchMedia("(hover: hover) and (min-width: 1024px)").matches;
+  const canHover = window.matchMedia(
+    "(hover: hover) and (min-width: 1024px)",
+  ).matches;
   if (!canHover) return;
 
   const rows = document.querySelectorAll(".register-row[data-photo]");
@@ -184,7 +189,7 @@ function wireReveals() {
         }
       });
     },
-    { rootMargin: "0px 0px -8% 0px", threshold: 0.08 }
+    { rootMargin: "0px 0px -8% 0px", threshold: 0.08 },
   );
   items.forEach((el) => observer.observe(el));
 }
@@ -219,9 +224,13 @@ function wireForms() {
         if (!ok) valid = false;
       });
 
-      const optionalEmail = form.querySelector('input[type="email"]:not([required])');
+      const optionalEmail = form.querySelector(
+        'input[type="email"]:not([required])',
+      );
       if (optionalEmail && optionalEmail.value.trim()) {
-        const ok = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(optionalEmail.value.trim());
+        const ok = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(
+          optionalEmail.value.trim(),
+        );
         const wrap = optionalEmail.closest("div");
         const error = wrap ? wrap.querySelector(".error-msg") : null;
         optionalEmail.classList.toggle("field-error", !ok);
@@ -236,9 +245,11 @@ function wireForms() {
       }
 
       const success = form.querySelector(".form-success");
-      form.querySelectorAll("input, select, textarea, button[type=submit]").forEach((el) => {
-        if (el.name !== "company") el.disabled = true;
-      });
+      form
+        .querySelectorAll("input, select, textarea, button[type=submit]")
+        .forEach((el) => {
+          if (el.name !== "company") el.disabled = true;
+        });
       if (success) {
         success.classList.remove("hidden");
         success.setAttribute("tabindex", "-1");
@@ -295,7 +306,7 @@ function wireInteractions() {
       a.addEventListener("click", () => {
         mobileNav.classList.add("hidden");
         toggle.setAttribute("aria-expanded", "false");
-      })
+      }),
     );
   }
 
