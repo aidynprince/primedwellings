@@ -13,7 +13,7 @@ import {
   whyClients,
 } from "./data.js";
 import { ctaBand, enquiryForm, pageHead, ph, phDark } from "./ui.js";
-import { registerRow } from "./pages/properties.js";
+import { propertyCarousel } from "./pages/properties.js";
 
 export const sectionHead = (num, kicker, title, lead = "") => `
   <div class="reveal">
@@ -92,13 +92,14 @@ export function homePage() {
       </div>
     </section>
 
-    <section class="bg-paper-3 border-b border-rule">
-      <div class="mx-auto max-w-[1240px] px-5 sm:px-8 py-6">
-        <div class="flex flex-wrap items-center gap-x-8 gap-y-3">
-          <p class="label text-registry">Serving clients in Ghana &amp; the Diaspora</p>
-          <span class="hidden sm:block h-px flex-1 bg-rule"></span>
-          <p class="label-sm text-muted">Property identification &middot; Due diligence &middot; Documentation &middot; Registration advisory &middot; Management</p>
-        </div>
+    <section class="bg-paper-3 border-b border-rule overflow-hidden" aria-label="About Prime Dwellings">
+      <div class="marquee-track py-4">
+        <p class="marquee-item text-[0.8rem] sm:text-[0.86rem] font-semibold tracking-wide text-registry/90">
+          <span class="text-laterite mr-3" aria-hidden="true">&#9670;</span>${home.supportingTwo}
+        </p>
+        <p class="marquee-item text-[0.8rem] sm:text-[0.86rem] font-semibold tracking-wide text-registry/90" aria-hidden="true">
+          <span class="text-laterite mr-3" aria-hidden="true">&#9670;</span>${home.supportingTwo}
+        </p>
       </div>
     </section>
 
@@ -129,8 +130,8 @@ export function homePage() {
           ${sectionHead("02", "Selected Properties", "A selection of currently listed opportunities.", "Each listing is presented with its key particulars and an enquiry route to our team. Full availability, pricing and documentation are confirmed directly with the firm.")}
           <a href="#/properties" class="btn btn-ghost shrink-0">View All Properties</a>
         </div>
-        <div class="mt-12 border-b border-rule">
-          ${properties.slice(0, 3).map(registerRow).join("")}
+        <div class="mt-12">
+          ${propertyCarousel(properties, "home-properties")}
         </div>
       </div>
     </section>

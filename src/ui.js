@@ -9,22 +9,11 @@ export function phDark(text) {
   return '<span class="ph ph-dark">To be supplied &middot; ' + text + "</span>";
 }
 
-export function logoMark(size = 40) {
-  return `
-  <svg width="${size}" height="${size}" viewBox="0 0 64 64" role="img" aria-label="${firm.name} monogram" class="shrink-0">
-    <rect width="64" height="64" rx="2" fill="#173a2c"></rect>
-    <path d="M12 33.5 32 15l20 18.5" fill="none" stroke="#f8f4ed" stroke-width="3.2" stroke-linecap="square"></path>
-    <path d="M17.5 33.5V50h29V33.5" fill="none" stroke="#f8f4ed" stroke-width="3.2"></path>
-    <rect x="28" y="39" width="8" height="11" fill="#b0562b"></rect>
-    <path d="M8 55.5h48" stroke="#b0562b" stroke-width="2.4"></path>
-  </svg>`;
-}
-
-export function logoLockup(dark = false) {
+export function logoLockup(dark = false, compact = false) {
   return `
   <a href="#/" class="flex items-center gap-3 group">
-    ${logoMark(42)}
-    <span class="leading-tight">
+    <span class="logo-icon ${dark ? "logo-icon-plate" : ""}" role="img" aria-label="${firm.name} logo mark"></span>
+    <span class="leading-tight ${compact ? "hidden sm:block" : ""}">
       <span class="block font-display text-[1.02rem] sm:text-[1.12rem] font-semibold tracking-[-0.015em] ${
         dark ? "text-paper" : "text-registry"
       }">Prime Dwellings</span>
@@ -47,20 +36,32 @@ export function header() {
   <header class="sticky top-0 z-40">
     <div class="bg-registry text-paper">
       <div class="mx-auto max-w-[1240px] px-5 sm:px-8">
-        <div class="flex items-center justify-between gap-4 py-2">
-          <p class="label-sm text-registry-soft/80 truncate">${firm.descriptor}</p>
-          <div class="flex items-center gap-4 sm:gap-6">
-            <span class="hidden sm:inline label-sm text-registry-soft/80">Enquiries &middot; Ghana &amp; the Diaspora</span>
-            <a href="#/contact" class="label-sm text-paper hover:text-laterite-soft transition-colors">Contact Us &rarr;</a>
+        <div class="flex items-center justify-between gap-x-4 gap-y-1.5 py-1.5 sm:py-2">
+          <p class="label-sm text-[0.55rem] tracking-[0.08em] sm:text-[0.625rem] sm:tracking-[0.22em] text-registry-soft/80 min-w-0">${firm.descriptor}</p>
+          <div class="flex items-center gap-4 sm:gap-6 ml-auto">
+            <span class="hidden lg:inline label-sm text-registry-soft/80">Enquiries &middot; Ghana &amp; the Diaspora</span>
+            <a href="#/contact" class="hidden lg:inline-block label-sm bg-paper text-registry hover:bg-laterite hover:text-primary px-3 py-1.5 transition-colors shrink-0">Contact Us &rarr;</a>
           </div>
         </div>
       </div>
     </div>
 
+    <!-- Mobile floating call icon (bottom-right) -->
+    <a
+      href="#/contact"
+      class="lg:hidden fixed bottom-5 right-5 z-40 flex items-center justify-center w-14 h-14 bg-paper text-primary hover:bg-primary hover:text-paper border border-registry/25 transition-all duration-200 active:scale-95"
+      aria-label="Contact us"
+      title="Contact us"
+    >
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"></path>
+      </svg>
+    </a>
+
     <div class="bg-paper/95 backdrop-blur-sm border-b border-rule">
       <div class="mx-auto max-w-[1240px] px-5 sm:px-8">
-        <div class="flex items-center justify-between gap-6 py-4">
-          ${logoLockup(false)}
+        <div class="flex items-center justify-between gap-6 py-3 sm:py-4">
+          ${logoLockup(false, true)}
           <nav class="hidden lg:flex items-center gap-8" aria-label="Primary">
             ${navItems
               .map(
@@ -73,9 +74,8 @@ export function header() {
               .join("")}
             <a href="#/properties" class="btn btn-primary !py-3 !px-5">View Properties</a>
           </nav>
-          <button id="menu-toggle" type="button" aria-expanded="false" aria-controls="mobile-nav" class="lg:hidden flex items-center gap-2 border border-rule px-3 py-2.5">
-            <span class="label">Menu</span>
-            <svg width="18" height="12" viewBox="0 0 18 12" aria-hidden="true"><path d="M0 1h18M0 6h18M0 11h18" stroke="#173a2c" stroke-width="1.6"/></svg>
+          <button id="menu-toggle" type="button" aria-label="Menu" aria-expanded="false" aria-controls="mobile-nav" class="lg:hidden flex items-center justify-center w-11 h-11 border border-rule shrink-0">
+            <svg width="18" height="12" viewBox="0 0 18 12" aria-hidden="true"><path d="M0 1h18M0 6h18M0 11h18" stroke="#0b1f4b" stroke-width="1.6"/></svg>
           </button>
         </div>
       </div>
@@ -119,6 +119,7 @@ export function footer() {
                   `<li><a href="${i.href}" class="text-[0.95rem] text-registry-soft/85 hover:text-paper transition-colors link-underline">${i.label}</a></li>`
               )
               .join("")}
+            <li><a href="#/privacy" class="text-[0.95rem] text-registry-soft/85 hover:text-paper transition-colors link-underline">Legal</a></li>
           </ul>
         </div>
 
